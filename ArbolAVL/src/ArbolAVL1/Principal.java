@@ -8,8 +8,12 @@ public class Principal {
 		Scanner sc = new Scanner(System.in);
 		int opcion = 0;
 
-		System.out.println("ÁRBOL AVL");
-		int[] valores = { 13, 7, 20, 15, 14 }; // Caso izquierda, izquierda
+		System.out.println("ÁRBOL AVL\n");
+		//int[] valores = { 13, 7, 20, 15, 14 }; // Caso izquierda, izquierda
+		//int[] valores = { 13, 7, 20, 24, 25 }; // Caso derecha, derecha
+		//int[] valores = { 10, 5, 13, 17, 16 }; // Caso derecha , izquierda
+		int[] valores = { 10, 5, 13, 1, 2 }; // Caso izquierda, derecha
+		
 		for (int valor : valores) {
 			arbolAVL.insertar(valor);
 		}
@@ -24,6 +28,7 @@ public class Principal {
 			System.out.println("4. Buscar");
 			System.out.println("5. Salir");
 			System.out.println("________________________");
+			System.out.print("Seleccione una opción: ");
 			opcion = sc.nextInt();
 
 			switch (opcion) {
