@@ -21,7 +21,7 @@ public class ArbolAVL {
 		y.altura = 1 + Math.max(obtenerAltura(y.izquierdo), obtenerAltura(y.derecho));
 		x.altura = 1 + Math.max(obtenerAltura(x.izquierdo), obtenerAltura(x.derecho));
 
-		System.out.println("Rotación derecha sobre nodo " + y.valor);
+		System.out.println("\nRotación derecha sobre nodo " + y.valor);
 		return x;
 	}
 
@@ -35,7 +35,7 @@ public class ArbolAVL {
 		x.altura = 1 + Math.max(obtenerAltura(x.izquierdo), obtenerAltura(x.derecho));
 		y.altura = 1 + Math.max(obtenerAltura(y.izquierdo), obtenerAltura(y.derecho));
 
-		System.out.println("Rotación izquierda sobre nodo " + x.valor);
+		System.out.println("\nRotación izquierda sobre nodo " + x.valor);
 		return y;
 	}
 
@@ -48,16 +48,16 @@ public class ArbolAVL {
 			if (nivel == 0) {
 				System.out.println("Insertando " + valor + " como nodo raíz...");
 			} else {
-				System.out.println("Insertando " + valor + "...");
+				System.out.println("\nInsertando " + valor + "...");
 			}
 			return new NodoAVL(valor);
 		}
 
 		if (valor < nodo.valor) {
-			System.out.println("Valor " + valor + " < " + nodo.valor + " → va al lado izquierdo");
+			System.out.println("\nValor " + valor + " < " + nodo.valor + " → va al lado izquierdo");
 			nodo.izquierdo = insertarNodo(nodo.izquierdo, valor, nivel + 1);
 		} else if (valor > nodo.valor) {
-			System.out.println("Valor " + valor + " > " + nodo.valor + " → va al lado derecho");
+			System.out.println("\nValor " + valor + " > " + nodo.valor + " → va al lado derecho");
 			nodo.derecho = insertarNodo(nodo.derecho, valor, nivel + 1);
 		} else {
 			return nodo;
@@ -68,23 +68,23 @@ public class ArbolAVL {
 		int balance = obtenerBalance(nodo);
 
 		if (balance > 1 && valor < nodo.izquierdo.valor) {
-			System.out.println("Desequilibrio II en nodo " + nodo.valor);
+			System.out.println("\nRealizando rotación simple a la derecha (II) en nodo " + nodo.valor);
 			return rotacionDerecha(nodo);
 		}
 
 		if (balance < -1 && valor > nodo.derecho.valor) {
-			System.out.println("Desequilibrio DD en nodo " + nodo.valor);
+			System.out.println("\nRealizando rotación simple a la izquierda (DD) en nodo " + nodo.valor);
 			return rotacionIzquierda(nodo);
 		}
 
 		if (balance > 1 && valor > nodo.izquierdo.valor) {
-			System.out.println("Desequilibrio ID en nodo " + nodo.valor);
+			System.out.println("\nRealizando rotación doble a la izquierda (ID) en nodo " + nodo.valor);
 			nodo.izquierdo = rotacionIzquierda(nodo.izquierdo);
 			return rotacionDerecha(nodo);
 		}
 
 		if (balance < -1 && valor < nodo.derecho.valor) {
-			System.out.println("Desequilibrio DI en nodo " + nodo.valor);
+			System.out.println("\nRealizando rotación doble a la derecha (DI) en nodo " + nodo.valor);
 			nodo.derecho = rotacionDerecha(nodo.derecho);
 			return rotacionIzquierda(nodo);
 		}
@@ -93,10 +93,13 @@ public class ArbolAVL {
 	}
 
 	public void eliminar(int valor) {
-		inicial = eliminarNodo(inicial, valor);
+		if (buscar(valor)) {
+			inicial = eliminarNodo(inicial, valor);
+		}
 	}
-	
+
 	private NodoAVL eliminarNodo(NodoAVL nodo, int valor) {
+
 		if (nodo == null)
 			return null;
 
@@ -108,6 +111,7 @@ public class ArbolAVL {
 			// Nodo con un solo hijo o sin hijos
 			if (nodo.izquierdo == null || nodo.derecho == null) {
 				nodo = (nodo.izquierdo != null) ? nodo.izquierdo : nodo.derecho;
+				System.out.println("\nSe ha eliminado el nodo con éxito");
 			} else {
 				// Nodo con dos hijos: buscar sucesor
 				NodoAVL sucesor = obtenerMinimo(nodo.derecho);
@@ -123,35 +127,31 @@ public class ArbolAVL {
 		// Actualizar altura
 		nodo.altura = 1 + Math.max(obtenerAltura(nodo.izquierdo), obtenerAltura(nodo.derecho));
 
-		// Balancear
+		// Obtener balance del nodo
 		int balance = obtenerBalance(nodo);
 
 		// Rotaciones
 		if (balance > 1 && obtenerBalance(nodo.izquierdo) >= 0) {
-			System.out.println("Rotación derecha tras eliminación en " + nodo.valor);
 			return rotacionDerecha(nodo);
 		}
 
 		if (balance > 1 && obtenerBalance(nodo.izquierdo) < 0) {
-			System.out.println("Rotación izquierda-derecha tras eliminación en " + nodo.valor);
 			nodo.izquierdo = rotacionIzquierda(nodo.izquierdo);
 			return rotacionDerecha(nodo);
 		}
 
 		if (balance < -1 && obtenerBalance(nodo.derecho) <= 0) {
-			System.out.println("Rotación izquierda tras eliminación en " + nodo.valor);
 			return rotacionIzquierda(nodo);
 		}
 
 		if (balance < -1 && obtenerBalance(nodo.derecho) > 0) {
-			System.out.println("Rotación derecha-izquierda tras eliminación en " + nodo.valor);
 			nodo.derecho = rotacionDerecha(nodo.derecho);
 			return rotacionIzquierda(nodo);
 		}
 
 		return nodo;
 	}
-	
+
 	private NodoAVL obtenerMinimo(NodoAVL nodo) {
 		while (nodo.izquierdo != null) {
 			nodo = nodo.izquierdo;
@@ -165,12 +165,12 @@ public class ArbolAVL {
 
 	private boolean buscarNodo(NodoAVL nodo, int valor, int nivel) {
 		if (nodo == null) {
-			System.out.println("El valor " + valor + " no se encontró en el árbol.");
+			System.out.println("\nEl valor " + valor + " no se encontró en el árbol.");
 			return false;
 		}
 
 		if (valor == nodo.valor) {
-			System.out.println("El valor " + valor + " se ha encontrado en el nivel " + nivel + ".");
+			System.out.println("\nEl valor " + valor + " se ha encontrado en el nivel " + nivel + ".");
 			return true;
 		} else if (valor < nodo.valor) {
 			return buscarNodo(nodo.izquierdo, valor, nivel + 1);
@@ -178,20 +178,24 @@ public class ArbolAVL {
 			return buscarNodo(nodo.derecho, valor, nivel + 1);
 		}
 	}
-	
+
 	public void ejecutarInorden() {
-		recorridoInorden(this.inicial);
-		System.out.println();
+		if (this.inicial == null) {
+			System.out.println("\nEl árbol está vacío.");
+		} else {
+			System.out.print("\nRecorrido Inorden: ");
+			recorridoInorden(this.inicial);
+			System.out.println();
+		}
 	}
-	
+
 	public void recorridoInorden(NodoAVL nodo) {
-		if(nodo==null){//caso base llega a nodo hoja	
+		if (nodo == null) { // caso base llega a nodo hoja
 			return;
-		}else {
+		} else {
 			recorridoInorden(nodo.izquierdo);
 			System.out.print(nodo.valor + " ");
 			recorridoInorden(nodo.derecho);
-			}
 		}
-	
+	}
 }
