@@ -18,8 +18,8 @@ public class Principal {
 		System.out.println("Proyecto: Creación de un árbol AVL\n");
 		//int[] valores = { 13, 7, 20, 15, 14 }; // Caso izquierda, izquierda
 		//int[] valores = { 13, 7, 20, 24, 25 }; // Caso derecha, derecha
-		//int[] valores = { 10, 5, 13, 17, 16 }; // Caso derecha , izquierda
-		int[] valores = { 10, 5, 13, 1, 2 }; // Caso izquierda, derecha
+		int[] valores = { 10, 5, 13, 17, 16 }; // Caso derecha , izquierda
+		//int[] valores = { 10, 5, 13, 1, 2 }; // Caso izquierda, derecha
 
 		for (int valor : valores) {
 			arbolAVL.insertar(valor);
