@@ -2,7 +2,7 @@ package ArbolB;
 
 import java.util.Scanner;
 
-public class TestArbolB {
+public class TestArbolB  {
 
     public static void ejecutar(Scanner sc, ArbolB arbolB) {
         int opcion;
