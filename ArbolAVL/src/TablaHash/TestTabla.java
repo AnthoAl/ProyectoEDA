@@ -2,7 +2,7 @@ package TablaHash;
 
 import java.util.Scanner;
 
-public class TestTablaHash {
+public class TestTablaHash  {
 
     public static void ejecutar(Scanner sc) {
         TablaHash tablaHash = null;
