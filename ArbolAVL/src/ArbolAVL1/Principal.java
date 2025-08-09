@@ -39,7 +39,7 @@ public class Principal {
 			System.out.println("5. Salir");
 			System.out.println("------------------------");
 			System.out.print("Seleccione una opción: ");
-			opcion = leerEntero(sc, "Seleccione una opción: "); // Validación de que la opción sea un entero
+			opcion = leerEntero(sc, "Seleccione una opción: "); 
 
 			switch (opcion) {
 			
