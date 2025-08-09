@@ -1,63 +1,98 @@
 package ArbolB;
 
-/**
- *
- * @author Carlos San Juan <carlossanjuanc@gmail.com>
- */
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 public class TestArbolB {
 
-    public static void main(String[] args) {
-        //grado minimo del Arbol B es t=3
-        //Cada nodo soporta 2t hijos y 2t-1 claves
-        int t = 3;
-        //Se crea el arbol B segun t
-        ArbolB arbolB = new ArbolB(t);
-        
-        //Valores a ingresar primera ronda
-        int[] valoresUno = {20, 10, 50, 30, 40};
-        System.out.println("-- INICIO --");
-        System.out.println("INSERTANDO VALORES AL ARBOL B");
-        for(int i=0; i<valoresUno.length; i++) {
-            System.out.println("Insertando... valor " + valoresUno[i]);
-            arbolB.insertar(valoresUno[i]);
-        }
-        
-        //Mostrando arbol B por pantalla en preorder
-        System.out.println("ESTADO ARBOL B");
-        arbolB.showBTree();
-        System.out.println("");
-        
-        //Valores a ingresar segunda ronda
-        System.out.println("Insertando... valor 60");
-        arbolB.insertar(60);
-        //Mostrando arbol B por pantalla en preorder
-        System.out.println("ESTADO ARBOL B");
-        arbolB.showBTree();
-        System.out.println("");
-        
-        //Valores a ingresar tercera ronda
-        System.out.println("Insertando... valor 80");
-        arbolB.insertar(80);
-        System.out.println("Insertando... valor 70");
-        arbolB.insertar(70);
-        System.out.println("Insertando... valor 90");
-        arbolB.insertar(90);
-        //Mostrando arbol B por pantalla en preorder
-        System.out.println("ESTADO ARBOL B");
-        arbolB.showBTree();
-        System.out.println("");
+    public static void ejecutar(Scanner sc, ArbolB arbolB) {
+        int opcion;
 
-        //Buscar
-        System.out.println("\nBuscando el nodo con el valor 80 en el arbol B:");
-        arbolB.buscarNodoPorClave(80);
-        
-        //IMPLEMENTAR
-        System.out.println("\nEl valor maximo del arbol B es : " + arbolB.buscarClaveMayor());
-        
-        System.out.print("El nodo minimo de la raiz del arbol B es :");
-        arbolB.mostrarClavesNodoMinimo();
-        
-        System.out.println("");
-        System.out.println("-- FIN --");
+        do {
+            System.out.println("\n------------------------");
+            System.out.println("\t SUBMENÚ ÁRBOL B");
+            System.out.println("------------------------");
+            System.out.println("1. Insertar clave");
+            System.out.println("2. Mostrar árbol (preorden)");
+            System.out.println("3. Buscar clave");
+            System.out.println("4. Mostrar clave mayor");
+            System.out.println("5. Mostrar nodo mínimo");
+            System.out.println("6. Salir");
+            System.out.println("------------------------");
+
+            opcion = leerEntero(sc, "Seleccione una opción: ");
+
+            switch (opcion) {
+                case 1: {
+                    int claveNueva = leerEntero(sc, "\nIngrese la clave a insertar: ");
+                    if (arbolB.buscar(arbolB.raiz, claveNueva) != null) {
+                        System.out.println("La clave " + claveNueva + " ya existe en el árbol.");
+                    } else {
+                        arbolB.insertar(claveNueva);
+                        System.out.println("Clave insertada correctamente.");
+                    }
+                    break;
+                }
+                case 2: {
+                    if (arbolB.raiz == null || arbolB.raiz.numeroClaves == 0) {
+                        System.out.println("El árbol está vacío.");
+                    } else {
+                        System.out.println("\nÁrbol B (preorden):");
+                        arbolB.mostrarArbolB();
+                        System.out.println();
+                    }
+                    break;
+                }
+                case 3: {
+                    if (arbolB.raiz == null || arbolB.raiz.numeroClaves == 0) {
+                        System.out.println("El árbol está vacío. No se puede buscar.");
+                    } else {
+                        int claveBuscar = leerEntero(sc, "\nIngrese la clave a buscar: ");
+                        arbolB.buscarNodoPorClave(claveBuscar);
+                    }
+                    break;
+                }
+                case 4: {
+                    if (arbolB.raiz == null || arbolB.raiz.numeroClaves == 0) {
+                        System.out.println("El árbol está vacío.");
+                    } else {
+                        System.out.println("Clave mayor: " + arbolB.buscarClaveMayor());
+                    }
+                    break;
+                }
+                case 5: {
+                    if (arbolB.raiz == null || arbolB.raiz.numeroClaves == 0) {
+                        System.out.println("El árbol está vacío.");
+                    } else {
+                        System.out.print("Nodo mínimo: ");
+                        arbolB.mostrarClavesNodoMinimo();
+                        System.out.println();
+                    }
+                    break;
+                }
+                case 6: {
+                    System.out.println("\nSaliendo...");
+                    break;
+                }
+                default:
+                    System.out.println("\nOpción inválida.");
+            }
+
+        } while (opcion != 6);
+    }
+
+    private static int leerEntero(Scanner sc, String mensaje) {
+        int numero;
+        while (true) {
+            try {
+                System.out.print(mensaje);
+                numero = sc.nextInt();
+                return numero;
+            } catch (InputMismatchException e) {
+                System.out.println("Error: debe ingresar un número entero.");
+                sc.nextLine(); 
+            }
+        }
     }
 }
+
