@@ -53,13 +53,14 @@ public class MenuPrincipal {
                 System.out.print(mensaje);
                 numero = sc.nextInt();
                 return numero;
-            } catch (Exception e) {
+            } catch (Exception e) {  // Manejo de error si no se ingresa un número entero
                 System.out.println("Error: debe ingresar un número entero.");
                 sc.nextLine(); 
             }
         }
     }
 }
+
 
 
 
