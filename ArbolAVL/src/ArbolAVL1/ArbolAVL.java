@@ -39,58 +39,108 @@ public class ArbolAVL {
 		return y;
 	}
 
-	public void insertar(int valor) {
-		inicial = insertarNodo(inicial, valor, 0);
+	/*
+ Inserta un valor en el árbol AVL.
+ Este método llama al método recursivo insertarNodo empezando
+ desde la raíz del árbol (inicial) y en el nivel 0.
+*/
+public void insertar(int valor) {
+	inicial = insertarNodo(inicial, valor, 0);
+}
+
+/*
+ Método recursivo para insertar un nuevo valor en el árbol AVL.
+
+ Funcionamiento:
+   1. Si el nodo actual es null:
+      - Si es el nivel 0 → significa que el valor será la raíz.
+      - Si no, será un nodo hoja en la posición correspondiente.
+      En ambos casos, se crea y retorna un nuevo NodoAVL con el valor.
+   
+   2. Si el valor a insertar es menor que el del nodo actual:
+      - Se continúa la inserción por el subárbol izquierdo.
+
+   3. Si el valor a insertar es mayor que el del nodo actual:
+      - Se continúa la inserción por el subárbol derecho.
+
+   4. Si el valor es igual → no se inserta (los AVL no permiten duplicados).
+
+   5. Después de insertar:
+      - Se actualiza la altura del nodo actual.
+      - Se calcula el factor de balance para verificar si el nodo quedó desbalanceado.
+      - Si el balance es mayor a 1 o menor a -1, se aplican las rotaciones
+        correspondientes (simples o dobles) para mantener la propiedad del AVL.
+
+ Tipos de rotaciones:
+   - Rotación simple a la derecha (II):  caso de inserción en el subárbol izquierdo-izquierdo.
+   - Rotación simple a la izquierda (DD): caso de inserción en el subárbol derecho-derecho.
+   - Rotación doble izquierda (ID): caso de inserción en el subárbol izquierdo-derecho.
+   - Rotación doble derecha (DI): caso de inserción en el subárbol derecho-izquierdo.
+*/
+private NodoAVL insertarNodo(NodoAVL nodo, int valor, int nivel) {
+
+	// Caso base: el nodo actual es null → insertar nuevo nodo aquí
+	if (nodo == null) {
+		if (nivel == 0) {
+			System.out.println("Insertando " + valor + " como nodo raíz...");
+		} else {
+			System.out.println("\nInsertando " + valor + "...");
+		}
+		return new NodoAVL(valor);
 	}
 
-	private NodoAVL insertarNodo(NodoAVL nodo, int valor, int nivel) {
-		if (nodo == null) {
-			if (nivel == 0) {
-				System.out.println("Insertando " + valor + " como nodo raíz...");
-			} else {
-				System.out.println("\nInsertando " + valor + "...");
-			}
-			return new NodoAVL(valor);
-		}
+	// Si el valor es menor, insertar en el lado izquierdo
+	if (valor < nodo.valor) {
+		System.out.println("\nValor " + valor + " < " + nodo.valor + " → va al lado izquierdo");
+		nodo.izquierdo = insertarNodo(nodo.izquierdo, valor, nivel + 1);
 
-		if (valor < nodo.valor) {
-			System.out.println("\nValor " + valor + " < " + nodo.valor + " → va al lado izquierdo");
-			nodo.izquierdo = insertarNodo(nodo.izquierdo, valor, nivel + 1);
-		} else if (valor > nodo.valor) {
-			System.out.println("\nValor " + valor + " > " + nodo.valor + " → va al lado derecho");
-			nodo.derecho = insertarNodo(nodo.derecho, valor, nivel + 1);
-		} else {
-			return nodo;
-		}
+	// Si el valor es mayor, insertar en el lado derecho
+	} else if (valor > nodo.valor) {
+		System.out.println("\nValor " + valor + " > " + nodo.valor + " → va al lado derecho");
+		nodo.derecho = insertarNodo(nodo.derecho, valor, nivel + 1);
 
-		nodo.altura = 1 + Math.max(obtenerAltura(nodo.izquierdo), obtenerAltura(nodo.derecho));
-
-		int balance = obtenerBalance(nodo);
-
-		if (balance > 1 && valor < nodo.izquierdo.valor) {
-			System.out.println("\nRealizando rotación simple a la derecha (II) en nodo " + nodo.valor);
-			return rotacionDerecha(nodo);
-		}
-
-		if (balance < -1 && valor > nodo.derecho.valor) {
-			System.out.println("\nRealizando rotación simple a la izquierda (DD) en nodo " + nodo.valor);
-			return rotacionIzquierda(nodo);
-		}
-
-		if (balance > 1 && valor > nodo.izquierdo.valor) {
-			System.out.println("\nRealizando rotación doble a la izquierda (ID) en nodo " + nodo.valor);
-			nodo.izquierdo = rotacionIzquierda(nodo.izquierdo);
-			return rotacionDerecha(nodo);
-		}
-
-		if (balance < -1 && valor < nodo.derecho.valor) {
-			System.out.println("\nRealizando rotación doble a la derecha (DI) en nodo " + nodo.valor);
-			nodo.derecho = rotacionDerecha(nodo.derecho);
-			return rotacionIzquierda(nodo);
-		}
-
+	// Si es igual, no se inserta y se retorna el nodo actual
+	} else {
 		return nodo;
 	}
+
+	// Actualizar altura del nodo actual
+	nodo.altura = 1 + Math.max(obtenerAltura(nodo.izquierdo), obtenerAltura(nodo.derecho));
+
+	// Calcular el balance del nodo actual
+	int balance = obtenerBalance(nodo);
+
+	// Caso IZQUIERDA-IZQUIERDA (rotación simple a la derecha)
+	if (balance > 1 && valor < nodo.izquierdo.valor) {
+		System.out.println("\nRealizando rotación simple a la derecha (II) en nodo " + nodo.valor);
+		return rotacionDerecha(nodo);
+	}
+
+	// Caso DERECHA-DERECHA (rotación simple a la izquierda)
+	if (balance < -1 && valor > nodo.derecho.valor) {
+		System.out.println("\nRealizando rotación simple a la izquierda (DD) en nodo " + nodo.valor);
+		return rotacionIzquierda(nodo);
+	}
+
+	// Caso IZQUIERDA-DERECHA (rotación doble izquierda)
+	if (balance > 1 && valor > nodo.izquierdo.valor) {
+		System.out.println("\nRealizando rotación doble a la izquierda (ID) en nodo " + nodo.valor);
+		nodo.izquierdo = rotacionIzquierda(nodo.izquierdo);
+		return rotacionDerecha(nodo);
+	}
+
+	// Caso DERECHA-IZQUIERDA (rotación doble derecha)
+	if (balance < -1 && valor < nodo.derecho.valor) {
+		System.out.println("\nRealizando rotación doble a la derecha (DI) en nodo " + nodo.valor);
+		nodo.derecho = rotacionDerecha(nodo.derecho);
+		return rotacionIzquierda(nodo);
+	}
+
+	// Si no hay desbalance, retornar el nodo actual
+	return nodo;
+}
+
+	
 
 	public void eliminar(int valor) {
 		if (buscar(valor)) {
