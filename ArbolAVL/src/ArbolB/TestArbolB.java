@@ -3,7 +3,7 @@ package ArbolB;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class SubmenuArbolB {
+public class TestArbolB {
 
     public static void ejecutar(Scanner sc, ArbolB arbolB) {
         int opcion;
