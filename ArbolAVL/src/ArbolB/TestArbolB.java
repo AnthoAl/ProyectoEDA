@@ -1,6 +1,5 @@
 package ArbolB;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TestArbolB {
@@ -89,7 +88,7 @@ public class TestArbolB {
                 System.out.print(mensaje);
                 numero = sc.nextInt();
                 return numero;
-            } catch (InputMismatchException e) { // Manejo de error si no se ingresa un entero
+            } catch (Exception e) { // Manejo de error si no se ingresa un entero
                 System.out.println("Error: debe ingresar un número entero.");
                 sc.nextLine(); 
             }
