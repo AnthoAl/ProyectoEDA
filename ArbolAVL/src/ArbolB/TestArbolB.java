@@ -17,7 +17,7 @@ public class TestArbolB {
             System.out.println("3. Buscar clave");
             System.out.println("4. Mostrar clave mayor");
             System.out.println("5. Mostrar nodo mínimo");
-            System.out.println("6. Volver al Menú Principal");
+            System.out.println("6. Salir");
             System.out.println("------------------------");
 
             opcion = leerEntero(sc, "Seleccione una opción: ");
@@ -71,7 +71,7 @@ public class TestArbolB {
                     break;
                 }
                 case 6: {
-                    System.out.println("\nRegresando al menú principal...");
+                    System.out.println("\nSaliendo...");
                     break;
                 }
                 default:
