@@ -3,7 +3,7 @@ package ps;
 import java.util.Scanner;
 import ArbolAVL1.Principal; // Clase donde está tu submenú AVL
 import ArbolB.TestArbolB;  // Clase con submenú Árbol B
-import TablaHash.SubmenuTablaHash; // Clase con submenú Hash
+import TablaHash.TestTablaHash; // Clase con submenú Hash
 
 public class MenuPrincipal {
 
@@ -13,7 +13,8 @@ public class MenuPrincipal {
 
         do {
             System.out.println("\n=====================================");
-            System.out.println("  MENÚ PRINCIPAL - ESTRUCTURAS DE DATOS");
+            System.out.println(" PROYECTO FINAL ESTRUCTURAS DE DATOS Y ALGORITMOS I ");
+            System.out.println("\nÁRBOLES Y FUNCIÓN HASH ");
             System.out.println("=====================================");
             System.out.println("1. Árbol AVL");
             System.out.println("2. Árbol B");
@@ -21,23 +22,23 @@ public class MenuPrincipal {
             System.out.println("4. Salir");
             System.out.println("=====================================");
 
-            opcion = leerEntero(sc, "Seleccione una opción: ");
+            opcion = leerEntero(sc, "Seleccione el tipo de estructura a crear: ");
 
             switch (opcion) {
                 case 1:
-                    PrincipalAVL.ejecutar(sc); // Submenú AVL
+                    Principal.ejecutar(sc); // Submenú AVL
                     break;
                 case 2:
-                    SubmenuArbolB.ejecutar(sc, new ArbolB.ArbolB(3)); // Submenú Árbol B
+                    TestArbolB.ejecutar(sc, new ArbolB.ArbolB(3)); // Submenú Árbol B
                     break;
                 case 3:
-                    SubmenuTablaHash.ejecutar(sc); // Submenú Hash
+                    TestTablaHash.ejecutar(sc); // Submenú Hash
                     break;
                 case 4:
-                    System.out.println("✅ Saliendo del programa...");
+                    System.out.println("Saliendo del programa...");
                     break;
                 default:
-                    System.out.println("❌ Opción inválida.");
+                    System.out.println("Opción inválida.");
             }
 
         } while (opcion != 4);
@@ -53,11 +54,12 @@ public class MenuPrincipal {
                 numero = sc.nextInt();
                 return numero;
             } catch (Exception e) {
-                System.out.println("❌ Error: debe ingresar un número entero.");
-                sc.nextLine(); // limpiar buffer
+                System.out.println("Error: debe ingresar un número entero.");
+                sc.nextLine(); 
             }
         }
     }
 }
+
 
 
