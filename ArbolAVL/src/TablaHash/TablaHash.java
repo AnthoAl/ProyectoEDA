@@ -3,13 +3,14 @@ package TablaHash;
 public class TablaHash {
 
     private int[] arregloHash;
-    private int tamanio;
-    private int tamanioMax;
+    private int tamanioOcupado;
+    private int tamanioTabla;
     private int vacio = -1;
+    private int eliminado = -2;
 
     public TablaHash(int tamanio) {
-        tamanioMax = tamanio;
-        arregloHash = new int[tamanioMax];
+        tamanioTabla = tamanio;
+        arregloHash = new int[tamanioTabla];
         for (int i = 0; i < arregloHash.length; i++) {
             arregloHash[i] = vacio;
         }
@@ -19,7 +20,7 @@ public class TablaHash {
 
         int numerPrimo = 0;
 
-        for (int i = tamanioMax - 1; i >= 1; i--) {
+        for (int i = tamanioTabla - 1; i >= 1; i--) { // Primo minimo es 2
 
             boolean esPrimo = true;
 
@@ -38,7 +39,7 @@ public class TablaHash {
     }
 
     public int funcionHash(int clave) {
-        return clave % tamanioMax;
+        return clave % tamanioTabla;
     }
 
     public int funcionHash2(int clave) {
@@ -47,9 +48,14 @@ public class TablaHash {
 
     public void insertar(int clave) {
 
-        if (tamanio == tamanioMax) {
-
+        if (tamanioOcupado == tamanioTabla) {
             System.out.println("La tabla está llena");
+            return;
+        }
+
+        // Verificar si ya existe
+        if (buscar(clave) != -2) {
+            System.out.println("La clave " + clave + " ya existe en la tabla");
             return;
         }
 
@@ -57,13 +63,13 @@ public class TablaHash {
         int hash1 = funcionHash(clave);
         int indice = hash1;
 
-        while (arregloHash[indice] != -1 && i < tamanioMax) {
-            indice = (hash1 + i * funcionHash2(clave)) % tamanioMax;
+        while (arregloHash[indice] != vacio && i < tamanioTabla && arregloHash[indice] != eliminado) {
+            indice = (hash1 + i * funcionHash2(clave)) % tamanioTabla;
             i++;
         }
 
         arregloHash[indice] = clave;
-        tamanio++;
+        tamanioOcupado++;
     }
 
     public void borrar(int clave) {// REVISAR
@@ -71,8 +77,8 @@ public class TablaHash {
         int posicion = buscar(clave);
 
         if (posicion != -2) {
-            arregloHash[posicion] = -1;
-            tamanio--;
+            arregloHash[posicion] = eliminado; // borrado lógico
+            tamanioOcupado--;
         } else {
             System.out.println("No se encontro la clave en la tabla");
         }
@@ -84,26 +90,29 @@ public class TablaHash {
         int hash1 = funcionHash(clave);
         int posicion = hash1;
 
-        while (arregloHash[posicion] != -1 && i < tamanioMax) {
+        while (arregloHash[posicion] != vacio && i < tamanioTabla) {
             if (arregloHash[posicion] == clave) {
                 return posicion;
             }
 
-            posicion = (posicion + i * funcionHash2(clave)) % tamanioMax;
+            int hash2 = funcionHash2(clave);
+            posicion = (hash1 + i * hash2) % tamanioTabla;
             i++;
         }
 
-        return -2;
+        return -2; // No se encontro
     }
 
     public void mostrarTablaHash() {
 
         System.out.println("Tabla Hash (DOBLE HASH):");
 
-        for (int i = 0; i < tamanioMax; i++) {
+        for (int i = 0; i < tamanioTabla; i++) {
 
-            if (arregloHash[i] == -1) {
+            if (arregloHash[i] == vacio) {
                 System.out.println(i + " --> vacío");
+            } else if (arregloHash[i] == eliminado) {
+                System.out.println(i + " --> eliminado");
             } else {
                 System.out.println(i + " --> " + arregloHash[i]);
             }
