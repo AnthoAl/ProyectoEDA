@@ -8,7 +8,6 @@ Fecha: 21/07/2025
 package ArbolAVL1;
 
 import java.util.Scanner;
-import java.util.InputMismatchException;
 
 public class Principal {
 	public static void main(String[] args) {
@@ -104,7 +103,7 @@ public class Principal {
                 System.out.print(mensaje);
                 numero = sc.nextInt();
                 return numero;
-            } catch (InputMismatchException e) { // Manejo de error si el usuario ingresa algo que no sea entero
+            } catch (Exception e) { // Manejo de error si el usuario ingresa algo que no sea entero
                 System.out.println("Error: Debe ingresar un número entero.");
                 sc.nextLine(); 
             }
