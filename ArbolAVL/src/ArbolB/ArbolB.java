@@ -288,22 +288,22 @@ public class ArbolB {
         imprimir(raiz);
     }
     
-private void imprimirInorden(NodoArbolB nodo) {
-    if (nodo == null) return;
-
-    for (int i = 0; i < nodo.numeroClaves; i++) {
-        // Primero recorrer el hijo i
-        if (!nodo.esHoja) {
-            imprimirInorden(nodo.hijos[i]);
+    private void imprimirInorden(NodoArbolB nodo) {
+        if (nodo == null) return;
+    
+        for (int i = 0; i < nodo.numeroClaves; i++) {
+            // Primero recorrer el hijo i
+            if (!nodo.esHoja) {
+                imprimirInorden(nodo.hijos[i]);
+            }
+            // Luego imprimir la clave i
+            System.out.print(nodo.claves[i] + " ");
         }
-        // Luego imprimir la clave i
-        System.out.print(nodo.claves[i] + " ");
+        // Finalmente, recorrer el último hijo
+        if (!nodo.esHoja) {
+            imprimirInorden(nodo.hijos[nodo.numeroClaves]);
+        }
     }
-    // Finalmente, recorrer el último hijo
-    if (!nodo.esHoja) {
-        imprimirInorden(nodo.hijos[nodo.numeroClaves]);
-    }
-}
     
     // Imprime en preorden
     private void imprimir(NodoArbolB nodo) {
