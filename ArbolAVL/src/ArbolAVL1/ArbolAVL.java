@@ -159,43 +159,95 @@ public class ArbolAVL {
 		return nodo;
 	}
 
+	/*
+ Busca un valor específico dentro del árbol AVL.
+ Este método llama al método recursivo buscarNodo empezando desde la raíz del árbol (inicial) y en el nivel 0.
+ */
 	public boolean buscar(int valor) {
 		return buscarNodo(inicial, valor, 0);
 	}
 
+	/*
+ Método recursivo para buscar un valor en el árbol AVL.
+ Funcionamiento:
+   1. Si el nodo actual es null, significa que se llegó al final de la rama
+      y el valor no está en el árbol → retorna false.
+   2. Si el valor del nodo actual coincide con el buscado, muestra un mensaje
+      indicando en qué nivel se encontró y retorna true.
+   3. Si el valor buscado es menor al valor del nodo actual,
+      la búsqueda continúa por el subárbol izquierdo.
+   4. Si el valor buscado es mayor, continúa por el subárbol derecho.
+ */
 	private boolean buscarNodo(NodoAVL nodo, int valor, int nivel) {
+		// Caso base: el nodo actual es null → valor no encontrado
 		if (nodo == null) {
 			System.out.println("\nEl valor " + valor + " no se encontró en el árbol.");
 			return false;
 		}
 
+		// Caso de éxito: el valor buscado está en el nodo actual
 		if (valor == nodo.valor) {
 			System.out.println("\nEl valor " + valor + " se ha encontrado en el nivel " + nivel + ".");
 			return true;
+
+		// Si el valor es menor, buscar en el subárbol izquierdo
 		} else if (valor < nodo.valor) {
 			return buscarNodo(nodo.izquierdo, valor, nivel + 1);
+
+		// Si el valor es mayor, buscar en el subárbol derecho	
 		} else {
 			return buscarNodo(nodo.derecho, valor, nivel + 1);
 		}
 	}
 
+	/**
+  Ejecuta el recorrido inorden de un árbol binario AVL.
+ El recorrido inorden visita los nodos en este orden
+ 1. Subárbol izquierdo
+ 2. Nodo actual
+ 3. Subárbol derecho
+  
+ Si el árbol está vacío, muestra un mensaje indicándolo.
+ */
 	public void ejecutarInorden() {
-		if (this.inicial == null) {
-			System.out.println("\nEl árbol está vacío.");
-		} else {
-			System.out.print("\nRecorrido Inorden: ");
-			recorridoInorden(this.inicial);
-			System.out.println();
-		}
+    
+    // Verifica si el árbol está vacío (sin nodos)
+    	if (this.inicial == null) {
+        System.out.println("\nEl árbol está vacío."); // Mensaje si no hay elementos
+    	} else {
+        // Si hay nodos, inicia el recorrido inorden desde la raíz
+        	System.out.print("\nRecorrido Inorden: ");
+        
+        // Llama al método que realiza el recorrido inorden recursivamente
+        	recorridoInorden(this.inicial);
+        
+        // Salto de línea al finalizar el recorrido
+        	System.out.println();
+    	}
 	}
 
+/*
+ Realiza el recorrido inorden de manera recursiva.
+ * Funciona así:
+    - Si el nodo es null, significa que se ha llegado al final de una rama y se detiene (caso base).
+    - Primero recorre todo el subárbol izquierdo.
+    - Luego muestra el valor del nodo actual.
+    - Finalmente recorre todo el subárbol derecho.
+ */
 	public void recorridoInorden(NodoAVL nodo) {
-		if (nodo == null) { // caso base llega a nodo hoja
-			return;
-		} else {
-			recorridoInorden(nodo.izquierdo);
-			System.out.print(nodo.valor + " ");
-			recorridoInorden(nodo.derecho);
-		}
+    	if (nodo == null) { 
+        // Caso base: se ha llegado a un nodo vacío (hoja sin hijos)
+        	return;
+    	} else {
+        // Recorrer recursivamente el subárbol izquierdo
+        	recorridoInorden(nodo.izquierdo);
+        
+        // Procesar (imprimir) el valor del nodo actual
+        	System.out.print(nodo.valor + " ");
+        
+        // Recorrer recursivamente el subárbol derecho
+        	recorridoInorden(nodo.derecho);
+    	}
 	}
+
 }
