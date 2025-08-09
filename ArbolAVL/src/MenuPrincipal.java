@@ -45,7 +45,7 @@ public class MenuPrincipal {
 
         sc.close();
     }
-
+ // Método auxiliar para leer enteros con validación
     private static int leerEntero(Scanner sc, String mensaje) {
         int numero;
         while (true) {
@@ -60,6 +60,7 @@ public class MenuPrincipal {
         }
     }
 }
+
 
 
 
