@@ -177,51 +177,87 @@ public class ArbolB {
         //la raiz se queda sin claves pero si tiene hijos
         if(raiz.numeroClaves == 0 && !raiz.esHoja){
         //raiz apunta a el nodo con claves válidas
-             raiz = raiz.hijos[0];
+            raiz = raiz.hijos[0];
         }
     }
-
+    
+    public void eliminar(int clave) {
+        // Inicia la eliminación desde la raíz
+        eliminar(raiz, clave);
+    
+        // Si después de eliminar la raíz queda vacía y tiene hijos, cambiar la raíz
+        if (raiz.numeroClaves == 0 && !raiz.esHoja) {
+            raiz = raiz.hijos[0];
+        }
+    }
+    
     private void eliminar(NodoArbolB nodo, int clave) {
         int indiceAux = 0;
+    
+        // Buscar la posición donde debería estar la clave
         while (indiceAux < nodo.numeroClaves && nodo.claves[indiceAux] < clave) {
             indiceAux++;
         }
-
+    
+        // Caso 1: clave encontrada en este nodo
         if (indiceAux < nodo.numeroClaves && nodo.claves[indiceAux] == clave) {
-            if (nodo.esHoja)
-                eliminarClaveDeNodo(nodo, indiceAux);
-            else
-                eliminarClaveNodoInterno(nodo, indiceAux);
-        } else {
+    
             if (nodo.esHoja) {
+                // Si es hoja, eliminar la clave directamente
+                eliminarClaveDeNodo(nodo, indiceAux);
+    
+            } else {
+                // Si no es hoja, eliminar clave de un nodo interno
+                eliminarClaveNodoInterno(nodo, indiceAux);
+            }
+    
+        } else {
+            // Caso 2: clave no está en este nodo
+    
+            if (nodo.esHoja) {
+                // No encontrada en hoja => no existe en el árbol
                 System.out.println("Clave " + clave + " no encontrada");
                 return;
             }
-            if (nodo.hijos[indiceAux].numeroClaves < gradoMinimo)
+    
+            // Si el hijo donde debe estar la clave tiene pocas claves, llenar para asegurar mínimo
+            if (nodo.hijos[indiceAux].numeroClaves < gradoMinimo) {
                 llenar(nodo, indiceAux);
-            if (indiceAux > nodo.numeroClaves)
+            }
+    
+            // Decidir hacia qué hijo continuar la eliminación (ajustado después de llenar)
+            if (indiceAux > nodo.numeroClaves) {
                 eliminar(nodo.hijos[indiceAux - 1], clave);
-            else
+            } else {
                 eliminar(nodo.hijos[indiceAux], clave);
+            }
         }
     }
-
+    
     private void eliminarClaveDeNodo(NodoArbolB nodo, int indiceAux) {
-        for (int i = indiceAux + 1; i < nodo.numeroClaves; i++)
+        // Desplazar claves para eliminar la clave en índice indiceAux
+        for (int i = indiceAux + 1; i < nodo.numeroClaves; i++) {
             nodo.claves[i - 1] = nodo.claves[i];
+        }
         nodo.numeroClaves--;
     }
     
     private void eliminarClaveNodoInterno(NodoArbolB nodo, int indiceAux) {
         int clave = nodo.claves[indiceAux];
+    
+        // Caso 1: hijo izquierdo tiene suficientes claves
         if (nodo.hijos[indiceAux].numeroClaves >= gradoMinimo) {
             int pred = obtenerPredecesor(nodo, indiceAux);
-            nodo.claves[indiceAux] = pred;
+            nodo.claves[indiceAux] = pred;  // Reemplazar con predecesor
             eliminar(nodo.hijos[indiceAux], pred);
+    
+        // Caso 2: hijo derecho tiene suficientes claves
         } else if (nodo.hijos[indiceAux + 1].numeroClaves >= gradoMinimo) {
             int succ = obtenerSucesor(nodo, indiceAux);
-            nodo.claves[indiceAux] = succ;
+            nodo.claves[indiceAux] = succ;  // Reemplazar con sucesor
             eliminar(nodo.hijos[indiceAux + 1], succ);
+    
+        // Caso 3: ni el hijo izquierdo ni derecho tienen suficientes claves
         } else {
             unir(nodo, indiceAux);
             eliminar(nodo.hijos[indiceAux], clave);
@@ -229,60 +265,139 @@ public class ArbolB {
     }
     
     private int obtenerPredecesor(NodoArbolB nodo, int indiceAux) {
-        NodoArbolB cur = nodo.hijos[indiceAux];
-        while (!cur.esHoja)
-            cur = cur.hijos[cur.numeroClaves];
-        return cur.claves[cur.numeroClaves - 1];
+        NodoArbolB aux = nodo.hijos[indiceAux]; // empieza en el hijo izquierdo
+    
+        // Bajar por el hijo más a la derecha hasta llegar a la hoja
+        while (!aux.esHoja) {
+            aux = aux.hijos[aux.numeroClaves];
+        }
+    
+        // Retornar la clave más grande del nodo hoja
+        return aux.claves[aux.numeroClaves - 1];
     }
     
     private int obtenerSucesor(NodoArbolB nodo, int indiceAux) {
-        NodoArbolB cur = nodo.hijos[indiceAux + 1];
-        while (!cur.esHoja)
-            cur = cur.hijos[0];
-        return cur.claves[0];
+        NodoArbolB aux = nodo.hijos[indiceAux + 1]; // empieza en el hijo derecho
+    
+        // Bajar por el hijo más a la izquierda hasta llegar a la hoja
+        while (!aux.esHoja) {
+            aux = aux.hijos[0];
+        }
+    
+        // Retornar la clave más pequeña del nodo hoja
+        return aux.claves[0];
     }
     
     private void llenar(NodoArbolB nodo, int indiceAux) {
-        if (indiceAux != 0 && nodo.hijos[indiceAux - 1].numeroClaves >= gradoMinimo)
+        // Intentar pedir clave prestada al hermano izquierdo
+        if (indiceAux != 0 && nodo.hijos[indiceAux - 1].numeroClaves >= gradoMinimo) {
             prestarDeHermanoIzquierdo(nodo, indiceAux);
-        else if (indiceAux != nodo.numeroClaves && nodo.hijos[indiceAux + 1].numeroClaves >= gradoMinimo)
+    
+        // Intentar pedir clave prestada al hermano derecho
+        } else if (indiceAux != nodo.numeroClaves && nodo.hijos[indiceAux + 1].numeroClaves >= gradoMinimo) {
             prestarDeHermanoDerecho(nodo, indiceAux);
-        else if (indiceAux != nodo.numeroClaves)
+    
+        // Si no puede pedir a hermanos, unir con un hermano
+        } else if (indiceAux != nodo.numeroClaves) {
             unir(nodo, indiceAux);
-        else
+    
+        } else {
             unir(nodo, indiceAux - 1);
+        }
     }
     
     private void prestarDeHermanoIzquierdo(NodoArbolB nodo, int indiceAux) {
-        NodoArbolB hijo = nodo.hijos[indiceAux], hermano = nodo.hijos[indiceAux - 1];
-        for (int i = hijo.numeroClaves - 1; i >= 0; i--) hijo.claves[i + 1] = hijo.claves[i];
-        if (!hijo.esHoja) for (int i = hijo.numeroClaves; i >= 0; i--) hijo.hijos[i + 1] = hijo.hijos[i];
+        NodoArbolB hijo = nodo.hijos[indiceAux];
+        NodoArbolB hermano = nodo.hijos[indiceAux - 1];
+    
+        // Desplazar claves e hijos del hijo hacia la derecha para hacer espacio
+        for (int i = hijo.numeroClaves - 1; i >= 0; i--) {
+            hijo.claves[i + 1] = hijo.claves[i];
+        }
+        if (!hijo.esHoja) {
+            for (int i = hijo.numeroClaves; i >= 0; i--) {
+                hijo.hijos[i + 1] = hijo.hijos[i];
+            }
+        }
+    
+        // Mover la clave del padre al hijo
         hijo.claves[0] = nodo.claves[indiceAux - 1];
-        if (!hijo.esHoja) hijo.hijos[0] = hermano.hijos[hermano.numeroClaves];
+    
+        // Mover el hijo derecho del hermano al hijo si no es hoja
+        if (!hijo.esHoja) {
+            hijo.hijos[0] = hermano.hijos[hermano.numeroClaves];
+        }
+    
+        // Mover la clave del hermano al padre
         nodo.claves[indiceAux - 1] = hermano.claves[hermano.numeroClaves - 1];
-        hijo.numeroClaves++; hermano.numeroClaves--;
+    
+        // Actualizar conteo de claves
+        hijo.numeroClaves++;
+        hermano.numeroClaves--;
     }
     
     private void prestarDeHermanoDerecho(NodoArbolB nodo, int indiceAux) {
-        NodoArbolB hijo = nodo.hijos[indiceAux], hermano = nodo.hijos[indiceAux + 1];
+        NodoArbolB hijo = nodo.hijos[indiceAux];
+        NodoArbolB hermano = nodo.hijos[indiceAux + 1];
+    
+        // Mover la clave del padre al hijo
         hijo.claves[hijo.numeroClaves] = nodo.claves[indiceAux];
-        if (!hijo.esHoja) hijo.hijos[hijo.numeroClaves + 1] = hermano.hijos[0];
+    
+        // Mover el hijo izquierdo del hermano al hijo si no es hoja
+        if (!hijo.esHoja) {
+            hijo.hijos[hijo.numeroClaves + 1] = hermano.hijos[0];
+        }
+    
+        // Mover la primera clave del hermano al padre
         nodo.claves[indiceAux] = hermano.claves[0];
-        for (int i = 1; i < hermano.numeroClaves; i++) hermano.claves[i - 1] = hermano.claves[i];
-        if (!hermano.esHoja) for (int i = 1; i <= hermano.numeroClaves; i++) hermano.hijos[i - 1] = hermano.hijos[i];
-        hijo.numeroClaves++; hermano.numeroClaves--;
+    
+        // Desplazar claves e hijos del hermano a la izquierda
+        for (int i = 1; i < hermano.numeroClaves; i++) {
+            hermano.claves[i - 1] = hermano.claves[i];
+        }
+        if (!hermano.esHoja) {
+            for (int i = 1; i <= hermano.numeroClaves; i++) {
+                hermano.hijos[i - 1] = hermano.hijos[i];
+            }
+        }
+    
+        // Actualizar conteo de claves
+        hijo.numeroClaves++;
+        hermano.numeroClaves--;
     }
     
     private void unir(NodoArbolB nodo, int indiceAux) {
-        NodoArbolB hijo = nodo.hijos[indiceAux], hermano = nodo.hijos[indiceAux + 1];
+        NodoArbolB hijo = nodo.hijos[indiceAux];
+        NodoArbolB hermano = nodo.hijos[indiceAux + 1];
+    
+        // Mover la clave del padre al hijo
         hijo.claves[gradoMinimo - 1] = nodo.claves[indiceAux];
-        for (int i = 0; i < hermano.numeroClaves; i++) hijo.claves[i + gradoMinimo] = hermano.claves[i];
-        if (!hijo.esHoja) for (int i = 0; i <= hermano.numeroClaves; i++) hijo.hijos[i + gradoMinimo] = hermano.hijos[i];
+    
+        // Copiar claves y los hijos del hermano al hijo
+        for (int i = 0; i < hermano.numeroClaves; i++) {
+            hijo.claves[i + gradoMinimo] = hermano.claves[i];
+        }
+        if (!hijo.esHoja) {
+            for (int i = 0; i <= hermano.numeroClaves; i++) {
+                hijo.hijos[i + gradoMinimo] = hermano.hijos[i];
+            }
+        }
+    
+        // Actualizar conteo de claves del hijo
         hijo.numeroClaves += hermano.numeroClaves + 1;
-        for (int i = indiceAux + 1; i < nodo.numeroClaves; i++) nodo.claves[i - 1] = nodo.claves[i];
-        for (int i = indiceAux + 2; i <= nodo.numeroClaves; i++) nodo.hijos[i - 1] = nodo.hijos[i];
+    
+        // Desplazar claves e hijos del nodo padre
+        for (int i = indiceAux + 1; i < nodo.numeroClaves; i++) {
+            nodo.claves[i - 1] = nodo.claves[i];
+        }
+        for (int i = indiceAux + 2; i <= nodo.numeroClaves; i++) {
+            nodo.hijos[i - 1] = nodo.hijos[i];
+        }
+    
+        // Reducir número de claves del nodo padre
         nodo.numeroClaves--;
-    }   
+    }
+
 
     public void mostrarArbolB() {
         imprimir(raiz);
@@ -292,14 +407,14 @@ public class ArbolB {
         if (nodo == null) return;
     
         for (int i = 0; i < nodo.numeroClaves; i++) {
-            // Primero recorrer el hijo i
+            // Recorre el hijo i
             if (!nodo.esHoja) {
                 imprimirInorden(nodo.hijos[i]);
             }
-            // Luego imprimir la clave i
+            // Imprimir la clave i
             System.out.print(nodo.claves[i] + " ");
         }
-        // Finalmente, recorrer el último hijo
+        // Recorre el último hijo
         if (!nodo.esHoja) {
             imprimirInorden(nodo.hijos[nodo.numeroClaves]);
         }
