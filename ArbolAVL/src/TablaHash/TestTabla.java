@@ -1,57 +1,116 @@
 package TablaHash;
 
-public class TestTabla {
-    public static void main(String[] args) {
-        
-        //PARA LA CREACION DE LA TABLA, OBLIGAR A COLOCAR UN TAMAÑO QUE SEA
-        // UN NUMERO PRIMO, PORQUE SI NO, NO SE PODRA CREAR LA TABLA
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
-        int tamanio = 11;
-        TablaHash tablaHash = new TablaHash(tamanio);
-        
-        //Se insertan valores a la tabla
-        tablaHash.insertar(8);
-        tablaHash.insertar(25);
-        tablaHash.insertar(13);
-        tablaHash.insertar(6);
-        tablaHash.insertar(16);
-        tablaHash.insertar(11);
-        tablaHash.insertar(27);
-        tablaHash.insertar(9);
-        
-        //Se muestra la tabla
-        tablaHash.mostrarTablaHash();
-        
-        //Se elimina un elemento
-        System.out.println("Eliminar 16");
-        tablaHash.borrar(16);
-        
-        //Se muestra la tabla
-        tablaHash.mostrarTablaHash();
-        
-        System.out.println("Insertar 15");
-        tablaHash.insertar(15);
-        //Se muestra la tabla
-        tablaHash.mostrarTablaHash();
+public class TestTablaHash {
 
-        System.out.println("Insertar 16");
-        tablaHash.insertar(16);
-        //Se muestra la tabla
-        tablaHash.mostrarTablaHash();
+    public static void ejecutar(Scanner sc) {
+        TablaHash tablaHash = null;
+        int opcion;
 
-        System.out.println("Insertar 23");
-        tablaHash.insertar(23);
-        //Se muestra la tabla
-        tablaHash.mostrarTablaHash();
-        
-        //Recupera el objeto si es que existe
-        int valorBuscado = 13;
-        
-        if (tablaHash.buscar(valorBuscado) != -2) {
-            System.out.println("Existe " + valorBuscado + " en la posicion " + tablaHash.buscar(valorBuscado));
-        } else {
-            System.out.println("No se encuentra el valor " + valorBuscado);
+        do {
+            System.out.println("\n------------------------");
+            System.out.println("\t SUBMENÚ TABLA HASH");
+            System.out.println("------------------------");
+            System.out.println("1. Crear tabla hash");
+            System.out.println("2. Insertar clave");
+            System.out.println("3. Eliminar clave");
+            System.out.println("4. Buscar clave");
+            System.out.println("5. Mostrar tabla");
+            System.out.println("6. Volver al Menú Principal");
+            System.out.println("------------------------");
+
+            opcion = leerEntero(sc, "Seleccione una opción: ");
+
+            switch (opcion) {
+                case 1: {
+                    int tamanio;
+                    do {
+                        tamanio = leerEntero(sc, "Ingrese el tamaño de la tabla (número primo): ");
+                        if (!esPrimo(tamanio)) {
+                            System.out.println(" El tamaño debe ser un número primo.");
+                        }
+                    } while (!esPrimo(tamanio));
+
+                    tablaHash = new TablaHash(tamanio);
+                    System.out.println("Tabla Hash creada con tamaño " + tamanio);
+                    break;
+                }
+                case 2: {
+                    if (tablaHash == null) {
+                        System.out.println("Primero debe crear la tabla.");
+                    } else {
+                        int clave = leerEntero(sc, "Ingrese la clave a insertar: ");
+                        if (tablaHash.buscar(clave) != -2) {
+                            System.out.println("La clave " + clave + " ya existe.");
+                        } else {
+                            tablaHash.insertar(clave);
+                        }
+                    }
+                    break;
+                }
+                case 3: {
+                    if (tablaHash == null) {
+                        System.out.println("Primero debe crear la tabla.");
+                    } else {
+                        int clave = leerEntero(sc, "Ingrese la clave a eliminar: ");
+                        tablaHash.borrar(clave);
+                    }
+                    break;
+                }
+                case 4: {
+                    if (tablaHash == null) {
+                        System.out.println("Primero debe crear la tabla.");
+                    } else {
+                        int clave = leerEntero(sc, "Ingrese la clave a buscar: ");
+                        int pos = tablaHash.buscar(clave);
+                        if (pos != -2) {
+                            System.out.println("La clave " + clave + " está en la posición " + pos);
+                        } else {
+                            System.out.println("La clave " + clave + " no se encuentra.");
+                        }
+                    }
+                    break;
+                }
+                case 5: {
+                    if (tablaHash == null) {
+                        System.out.println("Primero debe crear la tabla.");
+                    } else {
+                        tablaHash.mostrarTablaHash();
+                    }
+                    break;
+                }
+                case 6: {
+                    System.out.println("\nRegresando al menú principal...");
+                    break;
+                }
+                default:
+                    System.out.println("Opción inválida.");
+            }
+
+        } while (opcion != 6);
+    }
+
+    private static int leerEntero(Scanner sc, String mensaje) {
+        int numero;
+        while (true) {
+            try {
+                System.out.print(mensaje);
+                numero = sc.nextInt();
+                return numero;
+            } catch (InputMismatchException e) {
+                System.out.println("Error: debe ingresar un número entero.");
+                sc.nextLine(); 
+            }
         }
     }
-    
+
+    private static boolean esPrimo(int num) {
+        if (num <= 1) return false;
+        for (int i = 2; i * i <= num; i++) {
+            if (num % i == 0) return false;
+        }
+        return true;
+    }
 }
