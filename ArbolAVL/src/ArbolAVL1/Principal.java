@@ -8,6 +8,7 @@ Fecha: 21/07/2025
 package ArbolAVL1;
 
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class Principal {
 	public static void main(String[] args) {
