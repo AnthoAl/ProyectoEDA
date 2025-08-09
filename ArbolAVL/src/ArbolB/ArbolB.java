@@ -181,16 +181,6 @@ public class ArbolB {
         }
     }
     
-    public void eliminar(int clave) {
-        // Inicia la eliminación desde la raíz
-        eliminar(raiz, clave);
-    
-        // Si después de eliminar la raíz queda vacía y tiene hijos, cambiar la raíz
-        if (raiz.numeroClaves == 0 && !raiz.esHoja) {
-            raiz = raiz.hijos[0];
-        }
-    }
-    
     private void eliminar(NodoArbolB nodo, int clave) {
         int indiceAux = 0;
     
