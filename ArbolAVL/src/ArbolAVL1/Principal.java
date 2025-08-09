@@ -39,13 +39,13 @@ public class Principal {
 			System.out.println("5. Salir");
 			System.out.println("------------------------");
 			System.out.print("Seleccione una opción: ");
-			opcion = leerEntero(sc, "Seleccione una opción: ");
+			opcion = leerEntero(sc, "Seleccione una opción: "); // Validación de que la opción sea un entero
 
 			switch (opcion) {
 			
 			case 1: {
-                    int valorNuevo = leerEntero(sc, "\nIngrese el valor que quiere insertar: ");
-                    if (arbolAVL.buscar(valorNuevo)) {
+                    int valorNuevo = leerEntero(sc, "\nIngrese el valor que quiere insertar: "); // Validación de entero
+                    if (arbolAVL.buscar(valorNuevo)) { // Validación: evitar insertar duplicados
                         System.out.println("\nEl valor " + valorNuevo + " ya existe en el árbol.");
                     } else {
                         arbolAVL.insertar(valorNuevo);
@@ -53,18 +53,17 @@ public class Principal {
                     break;
                 }
 
-
 			case 2: {
 				arbolAVL.ejecutarInorden();
 				break;
 			}
 
 			case 3: {
-                    if (arbolAVL.inicial == null) {
+                    if (arbolAVL.inicial == null) { // Validación: árbol vacío
                         System.out.println("El árbol está vacío, no hay nodos para eliminar.");
                     } else {
-                        int valorEliminar = leerEntero(sc, "\nIngrese el valor a eliminar: ");
-                        if (arbolAVL.buscar(valorEliminar)) {
+                        int valorEliminar = leerEntero(sc, "\nIngrese el valor a eliminar: "); // Validación de entero
+                        if (arbolAVL.buscar(valorEliminar)) { // Validación: nodo existente antes de eliminar
                             arbolAVL.eliminar(valorEliminar);
                         } else {
                             System.out.println(" El valor " + valorEliminar + " no existe en el árbol.");
@@ -74,29 +73,29 @@ public class Principal {
                 }
 
 			case 4: {
-                    if (arbolAVL.inicial == null) {
+                    if (arbolAVL.inicial == null) { // Validación: árbol vacío
                         System.out.println("\nEl árbol está vacío, no hay nodos para buscar.");
                     } else {
-                        int buscado = leerEntero(sc, "\nIngrese el valor que quiera buscar: ");
+                        int buscado = leerEntero(sc, "\nIngrese el valor que quiera buscar: "); // Validación de entero
                         arbolAVL.buscar(buscado);
                     }
                     break;
                 }
 
-			
 			case 5: {
 				System.out.println("\nSaliendo...");
 				break;
 			}
 
 			default:
-				System.out.println("\nOpción inválida. Seleccione otra opción");
+				System.out.println("\nOpción inválida. Seleccione otra opción"); 
 			}
 			
 		} while (opcion != 5);
 		
 		sc.close();
 	}
+	
 	// Método auxiliar para leer enteros con validación
     private static int leerEntero(Scanner sc, String mensaje) {
         int numero;
@@ -105,10 +104,11 @@ public class Principal {
                 System.out.print(mensaje);
                 numero = sc.nextInt();
                 return numero;
-            } catch (InputMismatchException e) {
+            } catch (InputMismatchException e) { // Manejo de error si el usuario ingresa algo que no sea entero
                 System.out.println("Error: Debe ingresar un número entero.");
                 sc.nextLine(); 
             }
         }
     }
 }
+
