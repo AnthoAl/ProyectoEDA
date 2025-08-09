@@ -1,7 +1,7 @@
 /* 
 Escuela Politécnica Nacional
 Integrantes: Anahí Achote, Anthony Alangasí, Gary Defas, Lindsay Guzmán, Jarvin Ríos
-Grupo 1
+Grupo  1
 Curso: GR1CC
 Fecha: 21/07/2025
 */
