@@ -21,14 +21,14 @@ public class TestTablaHash {
             System.out.println("6. Salir");
             System.out.println("------------------------");
 
-            opcion = leerEntero(sc, "Seleccione una opción: ");
+            opcion = leerEntero(sc, "Seleccione una opción: "); 
 
             switch (opcion) {
                 case 1: {
                     int tamanio;
                     do {
-                        tamanio = leerEntero(sc, "Ingrese el tamaño de la tabla (número primo): ");
-                        if (!esPrimo(tamanio)) {
+                        tamanio = leerEntero(sc, "Ingrese el tamaño de la tabla (número primo): "); // Validación de entero
+                        if (!esPrimo(tamanio)) { // Validación: tamaño debe ser primo
                             System.out.println(" El tamaño debe ser un número primo.");
                         }
                     } while (!esPrimo(tamanio));
@@ -38,11 +38,11 @@ public class TestTablaHash {
                     break;
                 }
                 case 2: {
-                    if (tablaHash == null) {
+                    if (tablaHash == null) { // Validación: tabla no creada
                         System.out.println("Primero debe crear la tabla.");
                     } else {
-                        int clave = leerEntero(sc, "Ingrese la clave a insertar: ");
-                        if (tablaHash.buscar(clave) != -2) {
+                        int clave = leerEntero(sc, "Ingrese la clave a insertar: "); // Validación de entero
+                        if (tablaHash.buscar(clave) != -2) { // Validación: evitar insertar duplicados
                             System.out.println("La clave " + clave + " ya existe.");
                         } else {
                             tablaHash.insertar(clave);
@@ -51,21 +51,21 @@ public class TestTablaHash {
                     break;
                 }
                 case 3: {
-                    if (tablaHash == null) {
+                    if (tablaHash == null) { // Validación: tabla no creada
                         System.out.println("Primero debe crear la tabla.");
                     } else {
-                        int clave = leerEntero(sc, "Ingrese la clave a eliminar: ");
+                        int clave = leerEntero(sc, "Ingrese la clave a eliminar: "); // Validación de entero
                         tablaHash.borrar(clave);
                     }
                     break;
                 }
                 case 4: {
-                    if (tablaHash == null) {
+                    if (tablaHash == null) { // Validación: tabla no creada
                         System.out.println("Primero debe crear la tabla.");
                     } else {
-                        int clave = leerEntero(sc, "Ingrese la clave a buscar: ");
+                        int clave = leerEntero(sc, "Ingrese la clave a buscar: "); // Validación de entero
                         int pos = tablaHash.buscar(clave);
-                        if (pos != -2) {
+                        if (pos != -2) { // Validación: clave encontrada
                             System.out.println("La clave " + clave + " está en la posición " + pos);
                         } else {
                             System.out.println("La clave " + clave + " no se encuentra.");
@@ -74,7 +74,7 @@ public class TestTablaHash {
                     break;
                 }
                 case 5: {
-                    if (tablaHash == null) {
+                    if (tablaHash == null) { // Validación: tabla no creada
                         System.out.println("Primero debe crear la tabla.");
                     } else {
                         tablaHash.mostrarTablaHash();
@@ -86,12 +86,13 @@ public class TestTablaHash {
                     break;
                 }
                 default:
-                    System.out.println("Opción inválida.");
+                    System.out.println("Opción inválida."); 
             }
 
         } while (opcion != 6);
     }
 
+    // Método auxiliar para leer enteros con validación
     private static int leerEntero(Scanner sc, String mensaje) {
         int numero;
         while (true) {
@@ -99,13 +100,14 @@ public class TestTablaHash {
                 System.out.print(mensaje);
                 numero = sc.nextInt();
                 return numero;
-            } catch (InputMismatchException e) {
+            } catch (InputMismatchException e) { // Manejo de error si no se ingresa un número entero
                 System.out.println("Error: debe ingresar un número entero.");
                 sc.nextLine(); 
             }
         }
     }
 
+    // Validación: comprobar si un número es primo
     private static boolean esPrimo(int num) {
         if (num <= 1) return false;
         for (int i = 2; i * i <= num; i++) {
