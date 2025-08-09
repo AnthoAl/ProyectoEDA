@@ -18,7 +18,7 @@ public class TestTablaHash {
             System.out.println("3. Eliminar clave");
             System.out.println("4. Buscar clave");
             System.out.println("5. Mostrar tabla");
-            System.out.println("6. Volver al Menú Principal");
+            System.out.println("6. Salir");
             System.out.println("------------------------");
 
             opcion = leerEntero(sc, "Seleccione una opción: ");
@@ -82,7 +82,7 @@ public class TestTablaHash {
                     break;
                 }
                 case 6: {
-                    System.out.println("\nRegresando al menú principal...");
+                    System.out.println("\nSaliendo...");
                     break;
                 }
                 default:
