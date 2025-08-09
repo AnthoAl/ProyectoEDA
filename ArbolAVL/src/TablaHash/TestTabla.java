@@ -1,6 +1,5 @@
 package TablaHash;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class TestTablaHash {
@@ -100,7 +99,7 @@ public class TestTablaHash {
                 System.out.print(mensaje);
                 numero = sc.nextInt();
                 return numero;
-            } catch (InputMismatchException e) { // Manejo de error si no se ingresa un número entero
+            } catch (Exception e) { // Manejo de error si no se ingresa un número entero
                 System.out.println("Error: debe ingresar un número entero.");
                 sc.nextLine(); 
             }
