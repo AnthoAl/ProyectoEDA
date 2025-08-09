@@ -2,7 +2,7 @@ package ps;
 
 import java.util.Scanner;
 import ArbolAVL1.Principal; // Clase donde está tu submenú AVL
-import ArbolB.SubmenuArbolB;  // Clase con submenú Árbol B
+import ArbolB.TestArbolB;  // Clase con submenú Árbol B
 import TablaHash.SubmenuTablaHash; // Clase con submenú Hash
 
 public class MenuPrincipal {
@@ -59,4 +59,5 @@ public class MenuPrincipal {
         }
     }
 }
+
 
