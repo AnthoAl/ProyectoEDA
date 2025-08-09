@@ -1,4 +1,4 @@
-package ArbolB;
+Clapackage ArbolB;
 
 /*
   Clase de un nodo de un Árbol B.
@@ -9,17 +9,17 @@ package ArbolB;
 
 public class NodoArbolB {
 
-    int n; //numero de claves almacenadas en el nodo
-    boolean leaf; //Si el nodo es hoja (nodo hoja=true; nodo interno=false)
-    int key[];  //almacena las claves en el nodo
-    NodoArbolB child[]; //arreglo con referencias a los hijos
+    int numeroClaves; //numero de claves almacenadas en el nodo
+    boolean esHoja; //Si el nodo es hoja (nodo hoja=true; nodo interno=false)
+    int claves[];  //almacena las claves en el nodo
+    NodoArbolB hijos[]; //arreglo con referencias a los hijos
 
     //Constructores
     public NodoArbolB(int t) {
-        n = 0; // Inicialmente no hay claves
-        leaf = true; // Por defecto, el nodo es hoja
-        key = new int[((2 * t) - 1)]; // Espacio para el número máximo de claves
-        child = new NodoArbolB[(2 * t)]; // Espacio para el número máximo de hijos
+        numeroClaves = 0; // Inicialmente no hay claves
+        esHoja = true; // Por defecto, el nodo es hoja
+        claves = new int[((2 * t) - 1)]; // Espacio para el número máximo de claves
+        hijos = new NodoArbolB[(2 * t)]; // Espacio para el número máximo de hijos
     }
 
 
@@ -31,10 +31,10 @@ public class NodoArbolB {
     public void imprimir() {
         System.out.print("[");
         for (int i = 0; i < n; i++) {
-            if (i < n - 1) {
-                System.out.print(key[i] + " | "); // Clave con separador
+            if (i < numeroClaves - 1) {
+                System.out.print(claves[i] + " | "); // Clave con separador
             } else {
-                System.out.print(key[i]); // Última clave sin separador
+                System.out.print(claves[i]); // Última clave sin separador
             }
         }
         System.out.print("]");
@@ -42,9 +42,9 @@ public class NodoArbolB {
 
     
 //Busca una clave especifica dentro del nodo
-    public int find(int k) {
-        for (int i = 0; i < n; i++) {
-            if (key[i] == k) {
+    public int buscarClave(int clave) {
+        for (int i = 0; i < numeroClaves; i++) {
+            if (claves[i] == clave) {
                 return i;  // Si encuentra la clave, retorna su posición
             }
         }
