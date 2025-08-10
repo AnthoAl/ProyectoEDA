@@ -240,13 +240,10 @@ public class ArbolAVL {
 	private boolean buscarNodo(NodoAVL nodo, int valor, int nivel) {
 		// Caso base: el nodo actual es null → valor no encontrado
 		if (nodo == null) {
-			System.out.println("\nEl valor " + valor + " no se encontró en el árbol.");
 			return false;
 		}
-
 		// Caso de éxito: el valor buscado está en el nodo actual
 		if (valor == nodo.valor) {
-			System.out.println("\nEl valor " + valor + " se ha encontrado en el nivel " + nivel + ".");
 			return true;
 
 			// Si el valor es menor, buscar en el subárbol izquierdo
