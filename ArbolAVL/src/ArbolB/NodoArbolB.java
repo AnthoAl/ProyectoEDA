@@ -1,4 +1,7 @@
-Clapackage ArbolB;
+package ArbolB;
+
+public class NodoArbolB {
+
 
 /*
   Clase de un nodo de un Árbol B.
@@ -7,7 +10,6 @@ Clapackage ArbolB;
   por su eficiencia al manejar grandes volúmenes de datos.
  */
 
-public class NodoArbolB {
 
     int numeroClaves; //numero de claves almacenadas en el nodo
     boolean esHoja; //Si el nodo es hoja (nodo hoja=true; nodo interno=false)
@@ -30,7 +32,7 @@ public class NodoArbolB {
      */
     public void imprimir() {
         System.out.print("[");
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < numeroClaves; i++) {
             if (i < numeroClaves - 1) {
                 System.out.print(claves[i] + " | "); // Clave con separador
             } else {

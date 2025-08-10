@@ -2,7 +2,7 @@ package TablaHash;
 
 import java.util.Scanner;
 
-public class TestTablaHash  {
+public class TestTabla {
 
     public static void ejecutar(Scanner sc) {
         TablaHash tablaHash = null;
@@ -10,7 +10,7 @@ public class TestTablaHash  {
 
         do {
             System.out.println("\n------------------------");
-            System.out.println("\t SUBMENÚ TABLA HASH");
+            System.out.println("MENÚ TABLA HASH");
             System.out.println("------------------------");
             System.out.println("1. Crear tabla hash");
             System.out.println("2. Insertar clave");
@@ -20,61 +20,58 @@ public class TestTablaHash  {
             System.out.println("6. Salir");
             System.out.println("------------------------");
 
-            opcion = leerEntero(sc, "Seleccione una opción: "); 
+            opcion = leerEntero(sc, "\nSeleccione una opción: ");
 
             switch (opcion) {
                 case 1: {
                     int tamanio;
                     do {
-                        tamanio = leerEntero(sc, "Ingrese el tamaño de la tabla (número primo): "); // Validación de entero
+                        tamanio = leerEntero(sc, "\nIngrese el tamaño de la tabla (número primo): "); // Validación de
+                                                                                                      // entero
                         if (!esPrimo(tamanio)) { // Validación: tamaño debe ser primo
                             System.out.println(" El tamaño debe ser un número primo.");
                         }
                     } while (!esPrimo(tamanio));
 
                     tablaHash = new TablaHash(tamanio);
-                    System.out.println("Tabla Hash creada con tamaño " + tamanio);
+                    System.out.println("\nTabla Hash creada con tamaño " + tamanio);
                     break;
                 }
                 case 2: {
                     if (tablaHash == null) { // Validación: tabla no creada
-                        System.out.println("Primero debe crear la tabla.");
+                        System.out.println("\nPrimero debe crear la tabla.");
                     } else {
-                        int clave = leerEntero(sc, "Ingrese la clave a insertar: "); // Validación de entero
-                        if (tablaHash.buscar(clave) != -2) { // Validación: evitar insertar duplicados
-                            System.out.println("La clave " + clave + " ya existe.");
-                        } else {
-                            tablaHash.insertar(clave);
-                        }
+                        int clave = leerEntero(sc, "\nIngrese la clave a insertar: "); // Validación de entero
+                        tablaHash.insertar(clave);
                     }
                     break;
                 }
                 case 3: {
                     if (tablaHash == null) { // Validación: tabla no creada
-                        System.out.println("Primero debe crear la tabla.");
+                        System.out.println("\nPrimero debe crear la tabla.");
                     } else {
-                        int clave = leerEntero(sc, "Ingrese la clave a eliminar: "); // Validación de entero
+                        int clave = leerEntero(sc, "\nIngrese la clave a eliminar: "); // Validación de entero
                         tablaHash.borrar(clave);
                     }
                     break;
                 }
                 case 4: {
                     if (tablaHash == null) { // Validación: tabla no creada
-                        System.out.println("Primero debe crear la tabla.");
+                        System.out.println("\nPrimero debe crear la tabla.");
                     } else {
-                        int clave = leerEntero(sc, "Ingrese la clave a buscar: "); // Validación de entero
+                        int clave = leerEntero(sc, "\nIngrese la clave a buscar: "); // Validación de entero
                         int pos = tablaHash.buscar(clave);
-                        if (pos != -2) { // Validación: clave encontrada
-                            System.out.println("La clave " + clave + " está en la posición " + pos);
+                        if (pos != -1) { // Validación: clave encontrada
+                            System.out.println("\nLa clave " + clave + " está en la posición " + pos);
                         } else {
-                            System.out.println("La clave " + clave + " no se encuentra.");
+                            System.out.println("\nLa clave " + clave + " no se encuentra en la tabla.");
                         }
                     }
                     break;
                 }
                 case 5: {
                     if (tablaHash == null) { // Validación: tabla no creada
-                        System.out.println("Primero debe crear la tabla.");
+                        System.out.println("\nPrimero debe crear la tabla.");
                     } else {
                         tablaHash.mostrarTablaHash();
                     }
@@ -85,7 +82,7 @@ public class TestTablaHash  {
                     break;
                 }
                 default:
-                    System.out.println("Opción inválida."); 
+                    System.out.println("\nOpción inválida.");
             }
 
         } while (opcion != 6);
@@ -100,17 +97,19 @@ public class TestTablaHash  {
                 numero = sc.nextInt();
                 return numero;
             } catch (Exception e) { // Manejo de error si no se ingresa un número entero
-                System.out.println("Error: debe ingresar un número entero.");
-                sc.nextLine(); 
+                System.out.println("\nError: debe ingresar un número entero.");
+                sc.nextLine();
             }
         }
     }
 
     // Validación: comprobar si un número es primo
     private static boolean esPrimo(int num) {
-        if (num <= 1) return false;
+        if (num <= 1)
+            return false;
         for (int i = 2; i * i <= num; i++) {
-            if (num % i == 0) return false;
+            if (num % i == 0)
+                return false;
         }
         return true;
     }

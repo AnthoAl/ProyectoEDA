@@ -58,7 +58,7 @@ public class TablaHash {
             return;
         }
 
-        if (buscar(clave) != -2) { //Se verifica si la clave ya existe. Si es así, entonces se imprime un mensaje de error.
+        if (buscar(clave) != -1) { //Se verifica si la clave ya existe. Si es así, entonces se imprime un mensaje de error.
             System.out.println("La clave " + clave + " ya existe en la tabla");
             return;
         }
@@ -74,6 +74,7 @@ public class TablaHash {
 
         arregloHash[indice] = clave; //Se inserta la clave en el indice calculado.
         tamanioOcupado++;            //Se actualiza el número de claves almacenadas en el arreglo.
+        System.out.println("La clave " + clave + " se ha insertado en la tabla");
     }
 
     //Método para eliminar una clave del arreglo.

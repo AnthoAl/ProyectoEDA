@@ -1,35 +1,17 @@
-/* 
-Escuela Politécnica Nacional
-Integrantes: Anahí Achote, Anthony Alangasí, Gary Defas, Lindsay Guzmán, Jarvin Ríos
-Grupo  1
-Curso: GR1CC
-Fecha: 21/07/2025
-*/
 package ArbolAVL1;
 
 import java.util.Scanner;
 
 public class Principal {
-	public static void main(String[] args) {
+	public static void ejecutar(Scanner sc) {
 		ArbolAVL arbolAVL = new ArbolAVL();
-		Scanner sc = new Scanner(System.in);
 		int opcion = 0;
 
-		System.out.println("Proyecto: Creación de un árbol AVL\n");
-		//int[] valores = { 13, 7, 20, 15, 14 }; // Caso izquierda, izquierda
-		//int[] valores = { 13, 7, 20, 24, 25 }; // Caso derecha, derecha
-		int[] valores = { 10, 5, 13, 17, 16 }; // Caso derecha , izquierda
-		//int[] valores = { 10, 5, 13, 1, 2 }; // Caso izquierda, derecha
-
-		for (int valor : valores) {
-			arbolAVL.insertar(valor);
-		}
-
-		System.out.println("\nÁrbol AVL creado correctamente\n");
+		//System.out.println("\nÁrbol AVL creado correctamente\n");
 
 		do {
 			System.out.println("\n------------------------");
-			System.out.println("\t MENU");
+			System.out.println("MENÚ ÁRBOL AVL");
 			System.out.println("------------------------");
 			System.out.println("1. Insertar Nodo");
 			System.out.println("2. Recorrido Inorden");
@@ -37,7 +19,6 @@ public class Principal {
 			System.out.println("4. Buscar Nodo");
 			System.out.println("5. Salir");
 			System.out.println("------------------------");
-			System.out.print("Seleccione una opción: ");
 			opcion = leerEntero(sc, "Seleccione una opción: "); 
 
 			switch (opcion) {
@@ -92,7 +73,6 @@ public class Principal {
 			
 		} while (opcion != 5);
 		
-		sc.close();
 	}
 	
 	// Método auxiliar para leer enteros con validación
@@ -104,7 +84,7 @@ public class Principal {
                 numero = sc.nextInt();
                 return numero;
             } catch (Exception e) { // Manejo de error si el usuario ingresa algo que no sea entero
-                System.out.println("Error: Debe ingresar un número entero.");
+                System.out.println("\nError: Debe ingresar un número entero.\n");
                 sc.nextLine(); 
             }
         }
