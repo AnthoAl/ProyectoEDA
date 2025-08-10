@@ -29,7 +29,7 @@ public class TestTabla {
                         tamanio = leerEntero(sc, "\nIngrese el tamaño de la tabla (número primo): "); // Validación de
                                                                                                       // entero
                         if (!esPrimo(tamanio)) { // Validación: tamaño debe ser primo
-                            System.out.println(" El tamaño debe ser un número primo.");
+                            System.out.println("\nEl tamaño debe ser un número primo.");
                         }
                     } while (!esPrimo(tamanio));
 

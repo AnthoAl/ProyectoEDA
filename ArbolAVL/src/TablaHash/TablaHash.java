@@ -54,12 +54,12 @@ public class TablaHash {
     public void insertar(int clave) {
 
         if (tamanioOcupado == tamanioTabla) { //Se verifica si el arreglo está lleno. Si lo está, entonces se imprime un mensaje de error.
-            System.out.println("No se puede insertar la clave porque la tabla está llena");
+            System.out.println("\nNo se puede insertar la clave porque la tabla está llena");
             return;
         }
 
         if (buscar(clave) != -1) { //Se verifica si la clave ya existe. Si es así, entonces se imprime un mensaje de error.
-            System.out.println("La clave " + clave + " ya existe en la tabla");
+            System.out.println("\nLa clave " + clave + " ya existe en la tabla");
             return;
         }
 
@@ -74,7 +74,7 @@ public class TablaHash {
 
         arregloHash[indice] = clave; //Se inserta la clave en el indice calculado.
         tamanioOcupado++;            //Se actualiza el número de claves almacenadas en el arreglo.
-        System.out.println("La clave " + clave + " se ha insertado en la tabla");
+        System.out.println("\nLa clave " + clave + " se ha insertado en la tabla");
     }
 
     //Método para eliminar una clave del arreglo.
@@ -86,7 +86,7 @@ public class TablaHash {
             arregloHash[posicion] = eliminado;  //Se utiliza el valor eliminado para indicar que se ha eliminado la clave en esa posición.
             tamanioOcupado--;                   //Se actualiza el número de claves almacenadas en el arreglo.
         } else {
-            System.out.println("No se encontro la clave en la tabla"); //Si la clave no existe, entonces se imprime un mensaje de error.
+            System.out.println("\nNo se encontro la clave en la tabla"); //Si la clave no existe, entonces se imprime un mensaje de error.
         }
     }
 
@@ -111,7 +111,7 @@ public class TablaHash {
     //Método para imprimir el arreglo.
     public void mostrarTablaHash() {
 
-        System.out.println("Tabla Hash (DOBLE HASH):"); 
+        System.out.println("\nTabla Hash (DOBLE HASH):"); 
 
         for (int i = 0; i < tamanioTabla; i++) { //Se recorre cada uno de los índices del arreglo.
 

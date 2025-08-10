@@ -92,7 +92,7 @@ public class ArbolAVL {
 		// Caso base: el nodo actual es null → insertar nuevo nodo aquí
 		if (nodo == null) {
 			if (nivel == 0) {
-				System.out.println("Insertando " + valor + " como nodo raíz...");
+				System.out.println("\nInsertando " + valor + " como nodo raíz...");
 			} else {
 				System.out.println("\nInsertando " + valor + "...");
 			}
