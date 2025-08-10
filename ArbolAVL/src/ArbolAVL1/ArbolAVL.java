@@ -4,24 +4,27 @@ public class ArbolAVL {
 	NodoAVL inicial;
 
 	private int obtenerAltura(NodoAVL nodo) {
-		return (nodo == null) ? 0 : nodo.altura;
+		return (nodo == null) ? 0 : nodo.altura;//Se retorna la altura si el nodo existe
 	}
 
 	private int obtenerBalance(NodoAVL nodo) {
-		return (nodo == null) ? 0 : obtenerAltura(nodo.izquierdo) - obtenerAltura(nodo.derecho);
+		return (nodo == null) ? 0 : obtenerAltura(nodo.izquierdo) - obtenerAltura(nodo.derecho);//Si el nodo existe para obtener 
+		//el balance se retorna la altura del nodo izquierdo menos el derecho
 	}
 
-	private NodoAVL rotacionDerecha(NodoAVL y) {
-		NodoAVL x = y.izquierdo;
-		NodoAVL T2 = x.derecho;
+	private NodoAVL rotacionDerecha(NodoAVL y) {//se le asigna al nodo desbalanceada como y
+		NodoAVL x = y.izquierdo;//al hijo izquierdo de y se le asina como x
+		NodoAVL T2 = x.derecho;//si x tuviera un hijo derecho a este se le asigna como T2
 
-		x.derecho = y;
-		y.izquierdo = T2;
+		x.derecho = y;//Se realiza la rotacion, el nodo y pasa a ser el hijo derecho del nodo x
+		y.izquierdo = T2;//Y en el caso de que existiera T2 este pasa a ser el hijo izquierdo de y
 
+		//Se actualizan las alturas
 		y.altura = 1 + Math.max(obtenerAltura(y.izquierdo), obtenerAltura(y.derecho));
 		x.altura = 1 + Math.max(obtenerAltura(x.izquierdo), obtenerAltura(x.derecho));
 
 		System.out.println("\nRotación derecha sobre nodo " + y.valor);
+		//se retorna el nuevo subarbol
 		return x;
 	}
 
