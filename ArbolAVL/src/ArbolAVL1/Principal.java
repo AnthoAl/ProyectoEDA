@@ -52,15 +52,19 @@ public class Principal {
                     break;
                 }
 
-			case 4: {
-                    if (arbolAVL.inicial == null) { // Validación: árbol vacío
-                        System.out.println("\nEl árbol está vacío, no hay nodos para buscar.");
-                    } else {
-                        int buscado = leerEntero(sc, "\nIngrese el valor que quiera buscar: "); // Validación de entero
-                        arbolAVL.buscar(buscado);
-                    }
-                    break;
-                }
+				case 4: {
+					if (arbolAVL.inicial == null) { // Validación: árbol vacío
+						System.out.println("\nEl árbol está vacío, no hay nodos para buscar.");
+					} else {
+						int buscado = leerEntero(sc, "\nIngrese el valor que quiere buscar: ");
+					if (arbolAVL.buscar(buscado)) {
+						System.out.println("\nEl valor " + buscado + " se encuentra en el árbol.");
+					} else {
+						System.out.println("\nEl valor " + buscado + " NO se encuentra en el árbol.");
+					}
+						}
+					break
+					}
 
 			case 5: {
 				System.out.println("\nSaliendo...");
